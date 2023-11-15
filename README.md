@@ -2,8 +2,6 @@
 In groups of 5 students, we produced a Python program for playing a new variant on the game Rummikub.
 # COMP4008_Team21
 
-Iram is here
-
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
