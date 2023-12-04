@@ -202,6 +202,12 @@ class AIPlayer(Player):  # still working on it, Praise make changes
                     j += 1
                 i += 1
                 j = 0
+        
+        for row_index, each_row in enumerate(game_board): # outer loop, checks each row and saves the row index
+            empty_spaces = [] # store the positions of our empty spaces
+            for column_index, element in enumerate(each_row): # checks each element in that row and saves the column index
+                if element == None: # if the element is an empty space
+                    empty_spaces.append([row_index, column_index]) # add its position to our list of empty spaces 
 
         for row_index, each_row in enumerate(game_board):  # outer loop, checks each row and saves the row index
             empty_spaces = []  # store the positions of our empty spaces
