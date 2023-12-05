@@ -30,6 +30,11 @@ remaining_tiles = game_play.pool.remaining_tiles()
 
 #time.set_timer(every_second_timer_tick_event, 1000)
 
+user_player = game_play.player
+computer_player = game_play.comp_player
+
+computer_player.turn = True  # testing purposes
+computer_player.is_greater_30 = True  # testing purposes
 
 running = True
 while running:
@@ -44,8 +49,7 @@ while running:
     game_background = game_surfaces.game_background_surface
     screen.blit(game_background, (0, 0))
 
-    user_player = game_play.player
-    computer_player = game_play.comp_player
+    game_play.assign_rack_positions()
 
     user_tiles = user_player.get_tiles()
     computer_tiles = computer_player.get_tiles()
@@ -117,6 +121,9 @@ while running:
 
 
 
+    if computer_player.turn:
+        game_events.handle_computer_moves()
+        computer_player.turn = False
 
     # show pick tile
 

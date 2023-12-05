@@ -1,4 +1,4 @@
-from game_logic import Pool, Player, GameBoard
+from game_logic import Pool, Player, GameBoard, AIPlayer
 
 time_limit = 30
 
@@ -7,7 +7,7 @@ class GamePlay:
     def __init__(self):
         self.comp_tile_visible = False
         self.pool = Pool()
-        self.comp_player = Player("Comp", self.pool.initial_tiles())
+        self.comp_player = AIPlayer("Comp", self.pool.initial_tiles())
         self.player = Player("User", self.pool.initial_tiles())
         self.previous_state = self.player.rack_deep_copy()
         self.game_board = GameBoard()
@@ -22,6 +22,15 @@ class GamePlay:
         # position used for selecting tiles from board or rack e.g[0,1] = [row, col]
         self.selected_position = None
         self.timer = time_limit
+
+    def assign_rack_positions(self):
+        for i, tile in enumerate(self.player.rack.tiles):
+            if tile is not None:
+                tile.position[1] = i
+
+        for i, tile in enumerate(self.comp_player.rack.tiles):
+            if tile is not None:
+                tile.position[1] = i
 
     def toggle_comp_tile_visible(self):
         self.comp_tile_visible = not self.comp_tile_visible
