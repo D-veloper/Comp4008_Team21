@@ -136,21 +136,19 @@ class AIPlayer(Player): # still working on it, Praise make changes
     # To avoid placing tiles from the rack beside tiles on the board (as this function is not trying to extend existing sets but play new ones), the function looks for a little more space than necessary.
     # This function assumes that tiles have a position attribute which is updated as they move around (more importantly, anytime they return to the rack). It uses this attribute to return current tile position in the rack.
 
-    def get_rack_moves(self,
-                       which_player):  # this function takes in the player the AI should make moves for (on the computers turn, it will take in computer. When player clicks "Play for me" it will take in player).
-        from itertools import \
-            permutations  # so we can easily generate arrangements of tiles in the rack and find possible moves
+    def get_rack_moves(self, which_player): # this function takes in the player the AI should make moves for (on the computers turn, it will take in computer. When player clicks "Play for me" it will take in player).
+        from itertools import permutations # so we can easily generate arrangements of tiles in the rack and find possible moves
+    
+        min_size = 3 # the minimum size of a possible move. 
+        max_size = 5 # the maximum size of a possible move.
+        depth = 8 # how far the computer should go in its quest to find valid possible moves. At a depth of 5, the computer (if that many exist) would find the 5 highest scoring moves. 
 
-        min_size = 3  # the minimum size of a possible move.
-        max_size = 5  # the maximum size of a possible move.
-        depth = 5  # how far the computer should go in its quest to find valid possible moves. At a depth of 5, the computer (if that many exist) would find the 5 highest scoring moves.
+        all_sets = [scan_rack_odds(which_player), scan_rack_evens[which_player],scan_rack_group(which_player)]
+        # rack = copy.deepcopy(which_player.rack.tiles)  # Deep copy to avoid modifying the original rack. The computer removes tiles from this rack to know what the next highest scoring move will be after it has played the first.
+        rack = all_sets[0]
+        moves_to_play = [] # a list of moves to play on the board. Computer returns this list when it is done searching.
 
-        rack = copy.deepcopy(
-            which_player.rack.tiles)  # Deep copy to avoid modifying the original rack. The computer removes tiles from this rack to know what the next highest scoring move will be after it has played the first.
-        moves_to_play = []  # a list of moves to play on the board. Computer returns this list when it is done searching.
-
-        def find_highest_move(rack,
-                              depth):  # we will generate all possible moves (not the most optimal approach), find the valid ones, and find the highest scoring valid move
+        def find_highest_move(rack, depth, all_sets): # we will generate all possible moves (not the most optimal approach), find the valid ones, and find the highest scoring valid move
 
             combos = []  # list to store all possible arrangements of tiles in the rack
             valid_combos = []  # list to store the combinations that are valid
@@ -172,12 +170,18 @@ class AIPlayer(Player): # still working on it, Praise make changes
                                                                     combo))  # from the list of valid combos, return the one with the highest sum of tile values
             moves_to_play.append(highest_combo)  # add the highest combo as the first move in moves to play.
 
-            new_rack = [tile for tile in rack if
-                        tile not in highest_combo]  # Remove tiles that make up the highest move from the rack so that rack is different on next iteration
+            new_rack = [tile for tile in rack if tile not in highest_combo] # Remove tiles that make up the highest move from the rack so that rack is different on next iteration
+            new_same = [tile for tile in all_sets[2] if tile not in highest_combo]
+            all_sets[2] = new_same
 
-            find_highest_move(new_rack, depth - 1)  # Call the function within itself but with the updated rack
+            if depth == 6:
+                new_rack = all_sets[1]
+            elif depth == 3:
+                new_rack = all_sets[2] 
 
-        find_highest_move(rack, depth)  # Start the recursion herre
+            find_highest_move(new_rack, depth - 1, all_sets) # Call the function within itself but with the updated rack
+
+        find_highest_move(rack, depth, all_sets) # Start the recursion herre
 
         return moves_to_play  # return the list of all moves to play.
 
@@ -491,5 +495,21 @@ def change_turns(list_of_players, Current_Player, Next_Player):
 
 
 def is_empty(game_board):
-    return all(all(x == game_board[0][0] for x in row) for row in
-               game_board)  # if every element in a row is same as the first element and every row is the same as the first row
+    return all(all(x == game_board[0][0] for x in row) for row in game_board) # if every element in a row is same as the first element and every row is the same as the first row
+
+def scan_rack_group(player):
+    same_tiles = []
+    for i, tile in enumerate(player.rack.tiles):
+        for other_tile in player.rack.tiles:
+            if other_tile != tile and other_tile.value == tile.value:
+                same_tiles.append(tile)
+                break
+    return same_tiles
+
+def scan_rack_odds(player):
+    odd_tiles = [t for t in player.rack.tiles if t is not None and t.value%2!=0]
+    return odd_tiles
+
+def scan_rack_evens(player):
+    even_tiles = [t for t in player.rack.tiles if t is not None and t.value%2==0]
+    return even_tiles
