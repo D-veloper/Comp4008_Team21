@@ -11,7 +11,9 @@ from pygame import font
 from game_logic import Tile
 import pygame
 from game_play import GamePlay
-from game_events import GameEvents
+from game_events import GameEvents, every_second_timer_tick_event
+
+#init()
 
 init()
 screen = display.set_mode((screen_width, screen_height))
@@ -24,18 +26,6 @@ game_play = GamePlay()
 game_surfaces = GameRects(game_play, game_font)
 game_events = GameEvents(game_play, game_surfaces)
 
-# FIX THIS
-pick_tile = game_play.pool.draw_2_tiles()
-remaining_tiles = game_play.pool.remaining_tiles()
-
-#time.set_timer(every_second_timer_tick_event, 1000)
-
-user_player = game_play.player
-computer_player = game_play.comp_player
-
-computer_player.turn = True  # testing purposes
-computer_player.is_greater_30 = True  # testing purposes
-user_player.is_greater_30 = True # testing purposes
 
 running = True
 while running:
@@ -110,6 +100,8 @@ while running:
     for e in event.get():
         if e.type == QUIT:
             running = False
+        text = game_font.render(str(game_play.comp_random_time), True, (255, 255, 255))
+        screen.blit(text, (0, 0))
 
         if e.type == MOUSEBUTTONUP:
             pos = mouse.get_pos()
@@ -119,16 +111,6 @@ while running:
         # text = game_font.render(str(seconds), True, (255, 255, 255))
         # screen.blit(text, (0,0))
 
-
-
-
-    if computer_player.turn:
-        game_events.handle_computer_moves(computer_player)
-    #     computer_player.turn = False
-    #
-    # if not computer_player.turn:
-    #     game_events.handle_computer_moves(user_player)
-    #     computer_player.turn = True
 
     # show pick tile
 

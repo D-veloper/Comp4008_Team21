@@ -16,6 +16,8 @@ class GameEvents:
         self.show = True
 
     def handle_events(self, pos):
+        if self.game_play.player.turn == False:
+            return
         if self.game_surfaces.is_colliding_with_player_rack(pos):
             self.handle_user_player_rack_events(pos)
 
@@ -46,6 +48,11 @@ class GameEvents:
                 # self.submit_button_event()
 
         elif self.game_surfaces.play_for_me[1].collidepoint(pos):
+            self.game_play.game_state = self.game_play.game_board.get_copy()
+
+            self.game_play.copy_player_initial_state()
+            self.game_surfaces.update_game_state_tiles_surfaces()
+            self.game_surfaces.update_player_tiles_surfaces()
             self.handle_computer_moves(self.game_play.player)
 
     def handle_computer_moves(self, which_player): # The computer makes moves for which_player. which_player could be itself or the human player.
@@ -109,7 +116,8 @@ class GameEvents:
 
         if no_moves_played < 2:
             self.game_play.toggle_players(computer_player, user_player) # if moves were played end turn
-        elif no_moves_played == 2: # if no moves were played pick from the pool
+        
+        elif no_moves_played == 2:  # if no moves were played pick from the pool
             if len(self.game_play.pool.tiles) > 1:
                 random_tile = random.choice(self.game_play.pool.tiles)
                 self.game_play.pool.tiles.remove(random_tile)
@@ -122,7 +130,8 @@ class GameEvents:
                             self.game_play.player.add_tile(random_tile, i)
                             self.game_surfaces.update_player_tiles_surfaces()
                         break
-                self.game_play.toggle_players(computer_player, user_player) # after picking from pool, end turn
+                self.game_play.toggle_players()
+                # after picking from pool, end turn
             else:
                 print("pool is empty") # test purposes
     def handle_user_player_rack_events(self, pos):
@@ -141,7 +150,17 @@ class GameEvents:
                     self.game_surfaces.update_player_tiles_surfaces()
                     self.game_play.updated_selected_tile_index(None)
 
-    #           BOARD -> RACK TODO
+            elif tile[1].collidepoint(pos) and self.game_play.selected_game_board_tile_positions is not None:
+                selected_tile_pos = self.game_play.selected_game_board_tile_positions
+                selected_tile = self.game_play.game_state[selected_tile_pos[0]][selected_tile_pos[1]]
+                # for i, tile in enumerate( self.game_play.previous_state):
+                for i, tile in enumerate(self.game_play.previous_state):
+                    if tile is not None and selected_tile.id == tile.id:
+                        self.game_play.player.add_tile(selected_tile, i)
+                        self.game_play.remove_game_state_tile(selected_tile_pos[0], selected_tile_pos[1])
+                        self.game_surfaces.update_game_state_tiles_surfaces()
+                        self.game_surfaces.update_player_tiles_surfaces()
+
 
     def handle_game_board_events(self, pos):
         user_tiles = self.game_play.player.get_tiles()
@@ -180,11 +199,25 @@ class GameEvents:
         selected_index = None
         for i, tile in enumerate(self.game_surfaces.drawn_pool_tiles_surfaces):
             if tile[1].collidepoint(pos):
+                self.game_play.copy_player_initial_state()
+                self.game_play.game_state = self.game_play.game_board.get_copy()
                 self.game_play.add_drawn_tile_to_rack_from_pool(i)
+                self.game_play.toggle_players()
+                self.game_play.reset_timer()
                 self.game_surfaces.update_player_tiles_surfaces()
+                self.game_surfaces.update_remaining_tiles()
+                self.game_surfaces.update_game_state_tiles_surfaces()
 
     def submit_button_event(self):
-        self.game_play.game_state = self.game_play.game_board.get_copy()
-        self.game_surfaces.update_game_state_tiles_surfaces()
-        self.game_play.copy_player_initial_state()
-        self.game_surfaces.update_player_tiles_surfaces()
+        validation = self.game_play.submit_game_state()
+        # self.game_play.finalising_user_turn(validation[0],)
+        if validation[0]:
+            self.game_play.finalising_user_turn(validation)
+            self.game_play.toggle_players()
+        else:
+            self.game_play.invalid_position = validation[1]
+            self.game_surfaces.update_game_state_tiles_surfaces()
+
+            # self.submit_button_event()
+
+
