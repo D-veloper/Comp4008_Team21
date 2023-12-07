@@ -1,4 +1,4 @@
-from game_logic import Pool, Player, GameBoard, AIPlayer
+from game_logic import Pool, Player, GameBoard, AIPlayer, toggle_players
 
 time_limit = 30
 
@@ -58,6 +58,9 @@ class GamePlay:
 
     def updated_selected_tile_index(self, index):
         self.selected_rack_tile_index = index
+    @staticmethod
+    def toggle_players(player_1, player_2):
+        toggle_players(player_1, player_2)
 
     def updated_selected_tile_index_board(self, row, column):
         if row is None:
