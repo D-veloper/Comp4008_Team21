@@ -58,20 +58,24 @@ class GameEvents:
             self.game_surfaces.update_player_tiles_surfaces()
             self.handle_computer_moves(self.game_play.player)
 
-
     def handle_countdown_event(self):
         self.game_play.update_timer()
         if self.game_play.player.turn == True and self.game_play.timer == 0:
-            self.game_play.toggle_players()
             self.game_play.user_timeout()
+            self.game_play.toggle_players()
             self.game_surfaces.update_remaining_tiles()
             self.game_surfaces.update_player_tiles_surfaces()
             self.game_surfaces.update_game_state_tiles_surfaces()
-            pass
 
         if self.game_play.comp_player.turn:
             self.game_play.delay_com_turn()
-            # print(self.game_play.user_turn)
+
+        if self.game_play.comp_player.turn and self.game_play.comp_random_time == 0:
+            self.handle_computer_moves(self.game_play.comp_player)
+            self.game_play.reset_draw()
+            self.game_surfaces.update_remaining_tiles()
+            self.game_surfaces.update_game_state_tiles_surfaces()
+
 
     def handle_computer_moves(self, which_player):  # The computer makes moves for which_player. which_player could be itself or the human player.
         user_player = self.game_play.player
@@ -133,8 +137,8 @@ class GameEvents:
             no_moves_played += 1
 
         if no_moves_played < 2:
-            self.game_play.toggle_players(computer_player, user_player) # if moves were played end turn
-        
+            self.game_play.toggle_players()
+            # if moves were played end turn
         elif no_moves_played == 2:  # if no moves were played pick from the pool
             if len(self.game_play.pool.tiles) > 1:
                 random_tile = random.choice(self.game_play.pool.tiles)
@@ -179,7 +183,6 @@ class GameEvents:
                         self.game_surfaces.update_game_state_tiles_surfaces()
                         self.game_surfaces.update_player_tiles_surfaces()
 
-
     def handle_game_board_events(self, pos):
         user_tiles = self.game_play.player.get_tiles()
         game_board_surfaces = self.game_surfaces.game_board_tile_surfaces
@@ -214,14 +217,13 @@ class GameEvents:
                         self.game_surfaces.update_game_state_tiles_surfaces()
 
     def handle_pool_event(self, pos):
-        selected_index = None
+        # print(self.game_play.previous_state.length)
         for i, tile in enumerate(self.game_surfaces.drawn_pool_tiles_surfaces):
             if tile[1].collidepoint(pos):
                 self.game_play.copy_player_initial_state()
                 self.game_play.game_state = self.game_play.game_board.get_copy()
                 self.game_play.add_drawn_tile_to_rack_from_pool(i)
                 self.game_play.toggle_players()
-                self.game_play.reset_timer()
                 self.game_surfaces.update_player_tiles_surfaces()
                 self.game_surfaces.update_remaining_tiles()
                 self.game_surfaces.update_game_state_tiles_surfaces()
@@ -230,17 +232,13 @@ class GameEvents:
         validation = self.game_play.submit_game_state()
         # self.game_play.finalising_user_turn(validation[0],)
         if validation[0]:
-            self.game_play.finalising_user_turn(validation)
+            self.game_play.finalising_user_turn()
             self.game_play.toggle_players()
         else:
             self.game_play.invalid_position = validation[1]
             self.game_surfaces.update_game_state_tiles_surfaces()
 
-
-
     def handle_quit(self, pos):
         quit = self.game_surfaces.quit_surface()
         if quit[1].collidepoint(pos):
             self.game_play.running = False
-
-
