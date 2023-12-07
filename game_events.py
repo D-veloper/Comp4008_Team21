@@ -18,6 +18,11 @@ class GameEvents:
         self.show = True
 
     def handle_events(self, pos):
+        self.handle_quit(pos)
+        if self.game_surfaces.show_button[1].collidepoint(pos):
+            self.game_play.toggle_comp_tile_visible()
+            self.game_surfaces.update_comp_tiles_surfaces()
+
         if self.game_play.player.turn == False:
             return
         if self.game_surfaces.is_colliding_with_player_rack(pos):
@@ -26,9 +31,6 @@ class GameEvents:
         elif self.game_surfaces.is_colliding_with_game_board(pos):
             self.handle_game_board_events(pos)
 
-        elif self.game_surfaces.show_button[1].collidepoint(pos):
-            self.game_play.toggle_comp_tile_visible()
-            self.game_surfaces.update_comp_tiles_surfaces()
 
         elif self.game_surfaces.draw_tiles_button[1].collidepoint(pos):
             if len(self.game_play.drawn_tiles_from_pool) == 0:
@@ -51,13 +53,27 @@ class GameEvents:
 
         elif self.game_surfaces.play_for_me[1].collidepoint(pos):
             self.game_play.game_state = self.game_play.game_board.get_copy()
-
             self.game_play.copy_player_initial_state()
             self.game_surfaces.update_game_state_tiles_surfaces()
             self.game_surfaces.update_player_tiles_surfaces()
             self.handle_computer_moves(self.game_play.player)
 
-    def handle_computer_moves(self, which_player): # The computer makes moves for which_player. which_player could be itself or the human player.
+
+    def handle_countdown_event(self):
+        self.game_play.update_timer()
+        if self.game_play.player.turn == True and self.game_play.timer == 0:
+            self.game_play.toggle_players()
+            self.game_play.user_timeout()
+            self.game_surfaces.update_remaining_tiles()
+            self.game_surfaces.update_player_tiles_surfaces()
+            self.game_surfaces.update_game_state_tiles_surfaces()
+            pass
+
+        if self.game_play.comp_player.turn:
+            self.game_play.delay_com_turn()
+            # print(self.game_play.user_turn)
+
+    def handle_computer_moves(self, which_player):  # The computer makes moves for which_player. which_player could be itself or the human player.
         user_player = self.game_play.player
         computer_player = self.game_play.comp_player # get the computer player because the algorithm to make moves is a method of its class
         tiles_to_use = which_player.get_tiles() # the tiles we will be making use of gotten from whomever the computer is playing for
@@ -220,6 +236,11 @@ class GameEvents:
             self.game_play.invalid_position = validation[1]
             self.game_surfaces.update_game_state_tiles_surfaces()
 
-            # self.submit_button_event()
+
+
+    def handle_quit(self, pos):
+        quit = self.game_surfaces.quit_surface()
+        if quit[1].collidepoint(pos):
+            self.game_play.running = False
 
 
