@@ -33,7 +33,7 @@ show = False
 
 circle_diameter = 65
 
-path = ".././"
+path = "./"
 background = path+"board.png"
 game_background = path+"background.jpg"
 button = path+"b_4.png"
@@ -48,6 +48,7 @@ submit_button = path + "submit.png"
 user_icon = path + "user.png"
 comp_icon = path + "ai.png"
 quit_icon = path + "quit.png"
+error_prompt = path + "error_prompt.png"
 
 
 
@@ -314,6 +315,26 @@ class GameRects:
         img_rect.center = (circle_diameter * 0.5, circle_diameter * 0.5)
         remaining_tile_surface.blit(img, img_rect)
         return remaining_tile_surface,  remaining_tile_surface_rect
+
+    @classmethod
+    def time_surface(cls, time, game_font):
+        time_surface = pygame.image.load(circle)
+        time_rect = time_surface.get_rect()
+        time_rect.center = (screen_width * 0.95, screen_height / 2)
+        text = game_font.render(str(time), True, (255, 255, 255))
+        text_rect = text.get_rect()
+        text_rect.center = (circle_diameter * 0.5, circle_diameter * 0.5)
+        time_surface.blit(text, text_rect)
+
+        return time_surface, time_rect
+
+    @classmethod
+    def error_prompt_surface(cls):
+        error_prompt_surface = pygame.image.load(error_prompt)
+        error_prompt_surface_rect = error_prompt_surface.get_rect()
+        error_prompt_surface_rect.center =(screen_width * 0.5, screen_height * 0.5)
+        return error_prompt_surface, error_prompt_surface_rect
+
 
 
 def build_tile(tile, font, show_number=True, show_error=False, selected_tile_rack=False, selected_tile_rack_borad = False):
