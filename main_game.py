@@ -1,7 +1,4 @@
 import pygame
-from game_play import GamePlay
-from game_events import GameEvents, every_second_timer_tick_event
-from GUI_Rummikub_game import gameover
 from pygame import MOUSEBUTTONUP, mouse
 from pygame import QUIT
 from pygame import display
@@ -14,6 +11,10 @@ from game_components import GameRects, rack_length, screen_width, \
 from game_events import GameEvents, every_second_timer_tick_event
 from game_logic import Tile
 from game_play import GamePlay
+from game_events import GameEvents, every_second_timer_tick_event
+from LoadingPages import GameOver
+
+
 
 #init()
 
@@ -154,14 +155,14 @@ def main_game():
             else:
                 winner = "Draw"
 
-            gameover(winner)
+            GUI_Rummikub_game.gameover(winner)
 
         if all(tile == player_tiles[0] for tile in player_tiles):
             winner = "user player"
-            gameover(winner)
+            GUI_Rummikub_game.gameover(winner)
         elif all(tile == comp_tiles[0] for tile in comp_tiles):
             winner = "computer_player"
-            gameover(winner)
+            GUI_Rummikub_game.gameover(winner)
 
         display.update()
 
