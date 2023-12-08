@@ -12,6 +12,7 @@ from game_logic import Tile
 import pygame
 from game_play import GamePlay
 from game_events import GameEvents, every_second_timer_tick_event
+from GUI_Rummikub_game import gameover
 
 #init()
 
@@ -118,5 +119,50 @@ def main_game():
 
             if e.type == every_second_timer_tick_event:
                 game_events.handle_countdown_event()
+
+
+        text = game_font.render(str(game_play.comp_random_time), True, (255, 255, 255))
+        screen.blit(text, (0, 0))
+        if computer_player.turn and game_play.comp_random_time == 0:
+            game_events.handle_computer_moves(computer_player)
+        #     computer_player.turn = False
+        #
+        # if not computer_player.turn:
+        #     game_events.handle_computer_moves(user_player)
+        #     computer_player.turn = True
+
+        # show pick tile
+
+        pool_length = game_play.pool.remaining_tiles()
+
+        if pool_length == 0:
+            comp_tiles, player_tiles = computer_player.get_tiles(), user_player.get_tiles()
+            comp_sum = 0
+            player_sum = 0
+
+
+            for tile in player_tiles:
+                if tile is not None:
+                    player_sum += tile.value
+
+            for tile in comp_tiles:
+                if tile is not None:
+                    comp_sum += tile.value
+
+            if comp_sum < player_sum:
+                winner = "computer_player"
+            elif player_sum < comp_sum:
+                winner = "user player"
+            else:
+                winner = "Draw"
+
+            gameover(winner)
+
+        if all(tile == player_tiles[0] for tile in player_tiles):
+            winner = "user player"
+            gameover(winner)
+        elif all(tile == comp_tiles[0] for tile in comp_tiles):
+            winner = "computer_player"
+            gameover(winner)
 
         display.update()
