@@ -77,7 +77,6 @@ class GameEvents:
             self.game_surfaces.update_remaining_tiles()
             self.game_surfaces.update_game_state_tiles_surfaces()
 
-
     def handle_computer_moves(self, which_player):  # The computer makes moves for which_player. which_player could be itself or the human player.
         user_player = self.game_play.player
         computer_player = self.game_play.comp_player # get the computer player because the algorithm to make moves is a method of its class
@@ -185,12 +184,13 @@ class GameEvents:
                 selected_tile_pos = self.game_play.selected_game_board_tile_positions
                 selected_tile = self.game_play.game_state[selected_tile_pos[0]][selected_tile_pos[1]]
                 # for i, tile in enumerate( self.game_play.previous_state):
-                for i, tile in enumerate(self.game_play.previous_state):
-                    if tile is not None and selected_tile.id == tile.id:
+                for rack_tile in self.game_play.previous_state:
+                    if rack_tile is not None and selected_tile.id == rack_tile.id:
                         self.game_play.player.add_tile(selected_tile, i)
                         self.game_play.remove_game_state_tile(selected_tile_pos[0], selected_tile_pos[1])
                         self.game_surfaces.update_game_state_tiles_surfaces()
                         self.game_surfaces.update_player_tiles_surfaces()
+                        self.game_play.updated_selected_tile_index_board(None, None)
 
     def handle_game_board_events(self, pos):
         user_tiles = self.game_play.player.get_tiles()
