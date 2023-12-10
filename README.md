@@ -24,7 +24,7 @@ The logic enabling the computer player's ability to extend existing groups and r
 
 Additionally, I integrated sound effects into the game using sound assets and a sound class provided by another teammate (@Kwadwo Dako). This enriched the user experience by adding an auditory dimension to our gaming project.
 
-I also integrated the Gameover screen designed by another teammate (@Helen Soremekun) with the game over backend logic written by (@Kwadwo Dako)main game.
+I also integrated the Gameover screen designed by another teammate (@Helen Soremekun) with the game over backend logic written by (@Kwadwo Dako) for the main game.
 
 Finally, I wrote logic to toggle player turns and assisted with debuging several issues. Notably, I resolved logical errors in the validation logic, invalid positions logic, computer move generation logic and addressed issues like circular import errors
 
