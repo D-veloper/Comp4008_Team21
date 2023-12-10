@@ -20,7 +20,7 @@ It is crucial to note that the validation function used in the gameboard was wri
 
 Furthermore, I played a pivotal role in the backend and frontend development of the computer player. While the framework for the frontend integration had been set by another teammate (@iramshn), I not only wrote some of the backend logic for the computer player but also extended the framework to seamlessly integrate the computer player with the frontend. This included writing logic for the computer player to identify valid runs and groups on its rack, updating the logic written to extend existing runs and groups on the board, and adding lines of code to visually display the computer player's moves on the frontend.
 
-The logic enabling the computer player's ability to extend existing groups and runs on the board was initially written by another team member (@dominicmwitta). My role involved updating this logic to ensure compatibility with the frontend and seamlessly integrating it with the overall gameplay.
+The logic enabling the computer player's ability to extend existing groups and runs on the board was initially written by another team member (@dominicmwitta). I simply made slight updates to the logic to ensure compatibility with the frontend and seamlessly integrating it with the overall gameplay.
 
 Additionally, I integrated sound effects into the game using sound assets and a sound class provided by another teammate (@Kwadwo Dako). This enriched the user experience by adding an auditory dimension to our gaming project.
 
