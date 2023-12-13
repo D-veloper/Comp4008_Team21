@@ -1,4 +1,4 @@
-# Comp4008_Team21
+# Comp4008_Team21 (Pushed From GitLab: https://projects.cs.nott.ac.uk/psxpn2/comp4008_team21)
 In groups of 5 students, we produced a Python program for playing a new variant on the game Rummikub.
 
 **Project Leadership and Collaboration**
