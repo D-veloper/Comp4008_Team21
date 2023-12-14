@@ -13,8 +13,8 @@ A pivotal early phase involved dedicating approximately one week to comprehensiv
 **Conflict Resolution and Effective Communication**
 During the course of the project, challenges arose, particularly stemming from miscommunication. In addressing conflicts, I exemplified patience and employed open dialogue, ensuring a thorough understanding of all perspectives. This approach facilitated compromises when necessary and maintained a positive team dynamic.
 
-**Specific Contributions to Backend Development**
-In my specific roles, I undertook the creation of the Gameboard class, functioning as the backend representation of the gameboard. This involved implementing logic to validate the current state of the gameboard, returning a boolean value indicating validity, and providing the positions of tiles in invalid positions.
+**Technical Contributions**
+I undertook the creation of the Gameboard class, functioning as the backend representation of the gameboard. This involved implementing logic to validate the current state of the gameboard, returning a boolean value indicating validity, and providing the positions of tiles in invalid positions.
 
 It is crucial to note that the validation function used in the gameboard was written by another team member (@dominicmwitta), showcasing collaborative efforts in creating a robust backend infrastructure.
 
