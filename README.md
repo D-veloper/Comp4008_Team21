@@ -1,19 +1,19 @@
 # Comp4008_Team21 (Pushed From GitLab: https://projects.cs.nott.ac.uk/psxpn2/comp4008_team21)
 In groups of 5 students, we produced a Python program for playing a new variant on the game Rummikub.
 
-**Project Leadership and Collaboration**
+**Project Leadership and Collaboration**:
 As the Team Leader for our group project, I assumed the responsibility of organising the team's efforts, ensuring effective task distribution, and setting clear deadlines. My leadership extended to scheduling and facilitating regular team meetings, where I actively engaged with team members to encourage collaboration, listen to diverse opinions, and harness the unique talents within our group. This role required a proactive approach to guide the project seamlessly from initiation to completion.
 
-**Project Planning and Time Management**
+**Project Planning and Time Management**:
 Recognizing the importance of efficient project management, I strategically divided our three-week timeline into distinct phases, focusing on concurrent frontend and backend development. Emphasizing the critical role of communication, I encouraged consistent updates and feedback between team members.
 
-**Strategic Research and Planning**
+**Strategic Research and Planning**:
 A pivotal early phase involved dedicating approximately one week to comprehensive research and meticulous project planning. This investment in time significantly contributed to the project's overall success, fostering a smoother development process as we navigated the intricacies of game design in pygame.
 
-**Conflict Resolution and Effective Communication**
+**Conflict Resolution**:
 During the course of the project, challenges arose, particularly stemming from miscommunication. In addressing conflicts, I exemplified patience and employed open dialogue, ensuring a thorough understanding of all perspectives. This approach facilitated compromises when necessary and maintained a positive team dynamic.
 
-**Technical Contributions**
+**Technical Contributions**:
 I undertook the creation of the Gameboard class, functioning as the backend representation of the gameboard. This involved implementing logic to validate the current state of the gameboard, returning a boolean value indicating validity, and providing the positions of tiles in invalid positions.
 
 It is crucial to note that the validation function used in the gameboard was written by another team member (@dominicmwitta), showcasing collaborative efforts in creating a robust backend infrastructure.
