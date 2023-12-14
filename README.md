@@ -8,7 +8,7 @@ As the Team Leader for our group project, I assumed the responsibility of organi
 Recognizing the importance of efficient project management, I strategically divided our three-week timeline into distinct phases, focusing on concurrent frontend and backend development. Emphasizing the critical role of communication, I encouraged consistent updates and feedback between team members.
 
 **Strategic Research and Planning**
-A pivotal early phase involved dedicating approximately one week to comprehensive research and meticulous project planning. This investment in time significantly contributed to the project's overall success, fostering a smoother development process as we navigated the intricacies of game design.
+A pivotal early phase involved dedicating approximately one week to comprehensive research and meticulous project planning. This investment in time significantly contributed to the project's overall success, fostering a smoother development process as we navigated the intricacies of game design in pygame.
 
 **Conflict Resolution and Effective Communication**
 During the course of the project, challenges arose, particularly stemming from miscommunication. In addressing conflicts, I exemplified patience and employed open dialogue, ensuring a thorough understanding of all perspectives. This approach facilitated compromises when necessary and maintained a positive team dynamic.
