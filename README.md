@@ -32,4 +32,4 @@ Finally, I wrote logic to toggle player turns and assisted with debuging several
 ## Authors and acknowledgment
 I would like to express my sincere gratitude to my exceptional team members for their unwavering dedication and collaboration throughout the duration of our project. Their unique skills, insightful contributions, and commitment to excellence played a pivotal role in the successful realization of our shared goals. 
 
-Thank you @dominicmwitta, @iramshn, @Kwadwo Dakoand @helen-oy
+Thank you @dominicmwitta, @iramshn, @Kwadwo Dako and @helen-oy
